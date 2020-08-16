@@ -25,12 +25,11 @@ func handleRequest() {
 	myRouter.HandleFunc("/", controller.HelloHandler).Methods("GET")
 	myRouter.Use(setContent)
 	myRouter.HandleFunc("/addData", controller.AddData).Methods("POST")
-	// myRouter.HandleFunc("/deleteData", controller.DeleteData).Methods("DELETE")
-	// myRouter.HandleFunc("/getData", controller.GetData).Methods("GET")
 	myRouter.HandleFunc("/getAll", controller.GetAllActivities).Methods("GET")
-	//downloadCSV api by default SrNo
+
+	// DownloadCSV api by default SrNo
 	myRouter.HandleFunc("/dcsv", csv_generator.DownloadCSV).Methods("GET")
-	//downloadCSV by StartDate
+	// DownloadCSV by StartDate
 	myRouter.HandleFunc("/dcsvbystartdate", csv_generator.GetAllActivitiesByStartDate).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8000", myRouter))
