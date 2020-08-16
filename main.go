@@ -11,15 +11,25 @@ import (
 	"github.com/pravin772/mp-api/masterplan/model"
 )
 
+func setContent(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.RequestURI)
+		w.Header().Set("Content-Type", "application/json")
+		next.ServeHTTP(w, r)
+	})
+}
+
 func handleRequest() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 	myRouter.HandleFunc("/", controller.HelloHandler).Methods("GET")
+	myRouter.Use(setContent)
 	myRouter.HandleFunc("/addData", controller.AddData).Methods("POST")
 	// myRouter.HandleFunc("/deleteData", controller.DeleteData).Methods("DELETE")
 	// myRouter.HandleFunc("/getData", controller.GetData).Methods("GET")
-	// myRouter.HandleFunc("/getAll", controller.GetAllData).Methods("GET")
+	myRouter.HandleFunc("/getAll", controller.GetAllActivities).Methods("GET")
 	// myRouter.HandleFunc("/dcsv", csv_generator.DownloadCSV).Methods("GET")
 
+	myRouter.Headers("Content-Type", "application/json")
 	log.Fatal(http.ListenAndServe(":8000", myRouter))
 }
 

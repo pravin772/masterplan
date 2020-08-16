@@ -18,17 +18,30 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddData(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var m model.Masterplan
+	var m model.Activity
 	b, err := ioutil.ReadAll(r.Body)
 	err = json.Unmarshal(b, &m)
-	err = m.InsertMasterplan()
+	err = m.InsertActivity()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		err = json.NewEncoder(w).Encode(err.Error())
 		return
 	}
 	err = json.NewEncoder(w).Encode(m)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+}
+
+func GetAllActivities(w http.ResponseWriter, r *http.Request) {
+
+	data, err := model.GetAllActivities()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		err = json.NewEncoder(w).Encode(err.Error())
+		return
+	}
+	err = json.NewEncoder(w).Encode(data)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
