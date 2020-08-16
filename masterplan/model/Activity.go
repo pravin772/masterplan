@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -28,7 +29,7 @@ func (m *Activity) InsertActivity() error {
 	if result.Error != nil {
 		return result.Error
 	}
-	fmt.Println(m, " Added")
+	log.Println(m, " Added")
 	return nil
 }
 
@@ -38,6 +39,6 @@ func GetAllActivities() ([]*Activity, error) {
 	if result.Error != nil {
 		return data, result.Error
 	}
-	fmt.Println(data, " found")
+	log.Println(data, " found")
 	return data, nil
 }

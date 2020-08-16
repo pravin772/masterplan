@@ -9,10 +9,6 @@ import (
 	"github.com/pravin772/mp-api/masterplan/model"
 )
 
-const (
-	format = "2018-11-06"
-)
-
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello")
 }
