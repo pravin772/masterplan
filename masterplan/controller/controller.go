@@ -34,7 +34,6 @@ func AddData(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllActivities(w http.ResponseWriter, r *http.Request) {
-
 	data, err := model.GetAllActivities()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
