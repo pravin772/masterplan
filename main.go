@@ -1,12 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 	"github.com/pravin772/mp-api/masterplan/controller"
 	"github.com/pravin772/mp-api/masterplan/csv_generator"
 	"github.com/pravin772/mp-api/masterplan/model"
@@ -35,14 +36,23 @@ func handleRequest() {
 	log.Fatal(http.ListenAndServe(":8000", myRouter))
 }
 
+func loadEnvironment() {
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+}
+
 func main() {
-	model.DB, model.Err = gorm.Open("mysql", "user1:user1@(localhost)/masterplan?charset=utf8&parseTime=True&loc=Local")
+	loadEnvironment()
+	model.DB, model.Err = gorm.Open("mysql", os.Getenv("DB_URL"))
 	if model.Err != nil {
-		fmt.Println(model.Err.Error())
+		log.Println(model.Err.Error())
 		panic("Failed to open database")
 	}
 	defer model.DB.Close()
 	model.InitMigration()
-	fmt.Println("Server running on localhost:8000")
+	log.Println("Server running on localhost:8000")
 	handleRequest()
 }
