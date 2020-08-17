@@ -29,7 +29,7 @@ func handleRequest() {
 	myRouter.HandleFunc("/addData", controller.AddData).Methods("POST")
 	myRouter.HandleFunc("/getAll", controller.GetAllActivities).Methods("GET")
 
-	// DownloadCSV api by default SrNo
+	// DownloadCSV api sorted by default SrNo(WBS)
 	myRouter.HandleFunc("/dcsv", csv_generator.DownloadCSV).Methods("GET")
 	// DownloadCSV by StartDate in ascending order
 	myRouter.HandleFunc("/dcsvbystartdate", csv_generator.GetAllActivitiesByStartDate).Methods("GET")
