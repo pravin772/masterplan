@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -21,7 +20,7 @@ type Activity struct {
 
 func InitMigration() {
 	DB.AutoMigrate(&Activity{})
-	fmt.Println("This is model file")
+	log.Println("Models AutoMigrate")
 }
 
 func (m *Activity) InsertActivity() error {
@@ -29,7 +28,7 @@ func (m *Activity) InsertActivity() error {
 	if result.Error != nil {
 		return result.Error
 	}
-	log.Println(m, " Added")
+	log.Println("Data Added")
 	return nil
 }
 
@@ -39,6 +38,6 @@ func GetAllActivities() ([]*Activity, error) {
 	if result.Error != nil {
 		return data, result.Error
 	}
-	log.Println(data, " found")
+	log.Println("Data Found")
 	return data, nil
 }

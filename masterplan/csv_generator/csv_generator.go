@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/csv"
 	"encoding/json"
-	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"sort"
 
@@ -47,14 +47,16 @@ func DownloadCSV(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// setting the content type header to text/csv because our middleware bydefault sets it to json
+	// Setting the content type header to text/csv because our middleware bydefault sets it to json
 	w.Header().Set("Content-Type", "text/csv")
 	w.Header().Set("Content-Disposition", "attachment;filename=AllActivities.csv")
 	//w.Write(buffer.Bytes())
+	// This will stream the file
 	io.Copy(w, buffer)
+	log.Println(r.RequestURI, " served")
 }
 
-//by start dates
+// By start dates
 func GetAllActivitiesByStartDate(w http.ResponseWriter, r *http.Request) {
 	data, err := model.GetAllActivities()
 	if err != nil {
@@ -73,7 +75,7 @@ func GetAllActivitiesByStartDate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sort.Sort(byStartDate(data))
-	fmt.Println("sorted: ", data)
+	log.Println("Data Sorted")
 
 	for _, field := range data {
 		row := []string{field.StartDate.String(), field.EndDate.String(), field.SrNo, field.Activity}
@@ -94,7 +96,7 @@ func GetAllActivitiesByStartDate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Disposition", "attachment;filename=AllActivitiesByStartDate.csv")
 	//w.Write(buffer.Bytes())
 	io.Copy(w, buffer)
-
+	log.Println(r.RequestURI, " served")
 }
 
 type byStartDate []*model.Activity
