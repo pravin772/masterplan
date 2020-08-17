@@ -5,9 +5,11 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	// get mysql dialect
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+// DB ref
 var DB *gorm.DB
 var Err error
 
@@ -21,6 +23,7 @@ type Activity struct {
 func InitMigration() {
 	DB.AutoMigrate(&Activity{})
 	log.Println("Models AutoMigrate")
+
 }
 
 func (m *Activity) InsertActivity() error {

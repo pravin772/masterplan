@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	formatter = "2018-11-06"
+	formatter = "01-02-2006"
 )
 
 func DownloadCSV(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +26,7 @@ func DownloadCSV(w http.ResponseWriter, r *http.Request) {
 
 	buffer := &bytes.Buffer{}
 	writer := csv.NewWriter(buffer)
-	row := []string{"SrNo", "Activity", "Start Date", "End Date"}
+	row := []string{"SrNo", "Activity", "Start Date(MM-DD-YYYY)", "End Date"}
 	err = writer.Write(row)
 	if err := writer.Error(); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -34,7 +34,7 @@ func DownloadCSV(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, field := range data {
-		row := []string{field.SrNo, field.Activity, field.StartDate.String(), field.EndDate.String()}
+		row := []string{field.SrNo, field.Activity, field.StartDate.Format(formatter), field.EndDate.Format(formatter)}
 		err := writer.Write(row)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -67,7 +67,7 @@ func GetAllActivitiesByStartDate(w http.ResponseWriter, r *http.Request) {
 
 	buffer := &bytes.Buffer{}
 	writer := csv.NewWriter(buffer)
-	row := []string{"Start Date", "End Date", "SrNo", "Activity"}
+	row := []string{"Start Date(MM-DD-YYYY)", "End Date", "SrNo", "Activity"}
 	err = writer.Write(row)
 	if err := writer.Error(); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -78,7 +78,7 @@ func GetAllActivitiesByStartDate(w http.ResponseWriter, r *http.Request) {
 	log.Println("Data Sorted")
 
 	for _, field := range data {
-		row := []string{field.StartDate.String(), field.EndDate.String(), field.SrNo, field.Activity}
+		row := []string{field.StartDate.Format(formatter), field.EndDate.Format(formatter), field.SrNo, field.Activity}
 		err := writer.Write(row)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

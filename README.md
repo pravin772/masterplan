@@ -53,7 +53,7 @@ To download Activities in csv file by WBS no. do get request
 
 GET http://localhost:8000/dcsv
 
-To download Activities in csv file by StartDate no. do get request
+To download Activities in csv file by StartDate (MM-DD-YYY) do get request
 
 GET http://localhost:8000/dcsvbystartdate
 
