@@ -11,7 +11,7 @@ Once you install both requirements.
 Clone GitHub repo
 
 ```bash
-git clone
+git clone https://github.com/pravin772/mp-api.git
 cd mp-api
 ```
 
