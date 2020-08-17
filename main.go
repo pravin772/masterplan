@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
@@ -28,12 +29,19 @@ func handleRequest() {
 	myRouter.HandleFunc("/addData", controller.AddData).Methods("POST")
 	myRouter.HandleFunc("/getAll", controller.GetAllActivities).Methods("GET")
 
-	// DownloadCSV api by default SrNo
+	// DownloadCSV api sorted by default SrNo(WBS)
 	myRouter.HandleFunc("/dcsv", csv_generator.DownloadCSV).Methods("GET")
-	// DownloadCSV by StartDate
+	// DownloadCSV by StartDate in ascending order
 	myRouter.HandleFunc("/dcsvbystartdate", csv_generator.GetAllActivitiesByStartDate).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8000", myRouter))
+	s := &http.Server{
+		Addr:           ":8000",
+		Handler:        myRouter,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	log.Fatal(s.ListenAndServe())
 }
 
 func loadEnvironment() {

@@ -2,15 +2,16 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/pravin772/mp-api/masterplan/model"
 )
 
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello")
+	log.Println(w, "Hello")
+	log.Println(r.RequestURI, " served")
 }
 
 func AddData(w http.ResponseWriter, r *http.Request) {
@@ -27,6 +28,7 @@ func AddData(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	log.Println(r.RequestURI, " served")
 }
 
 func GetAllActivities(w http.ResponseWriter, r *http.Request) {
@@ -40,4 +42,5 @@ func GetAllActivities(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	log.Println(r.RequestURI, " served")
 }
