@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,7 +11,7 @@ import (
 )
 
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println(w, "Hello")
+	fmt.Fprint(w, "Hello")
 	log.Println(r.RequestURI, " served")
 }
 
