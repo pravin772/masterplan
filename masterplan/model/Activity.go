@@ -23,7 +23,6 @@ type Activity struct {
 func InitMigration() {
 	DB.AutoMigrate(&Activity{})
 	log.Println("Models AutoMigrate")
-
 }
 
 func (m *Activity) InsertActivity() error {
